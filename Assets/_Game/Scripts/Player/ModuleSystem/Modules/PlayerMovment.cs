@@ -31,7 +31,7 @@ public class PlayerMovment : ModuleBase {
             _rb.linearDamping = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && grounded) { 
+        if (Input.GetKey(KeyCode.Space) && grounded) { 
             _rb.linearVelocity += new Vector3(0, jumpSpeed, 0);
             grounded = false;
         }
