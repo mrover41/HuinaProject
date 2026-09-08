@@ -26,4 +26,8 @@ public abstract class ModuleBase {
     public virtual void OnDisable() => Debug.Log($"Module {Name} disabled.");
     public virtual void OnUpdate() {}
     public virtual void OnFixedUpdate() {}
+    public virtual void OnCollisionEnter(Collision _) {}
+    public virtual void OnCollisionExit(Collision _) {}
+    public virtual void OnTriggerEnter(Collider _) {}
+    public virtual void OnTriggerExit(Collider _) {}
 }

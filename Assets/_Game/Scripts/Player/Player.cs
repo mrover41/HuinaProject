@@ -5,17 +5,29 @@ public class Player : MonoBehaviour {
 	
 	private delegate void UpdateDel();
 	private delegate void FixedUpdateDel();
+	private delegate void CollisionEnter(Collision _);
+	private delegate void CollisionExit(Collision _);
+	private delegate void TriggerEnter(Collider _);
+	private delegate void TriggerExit(Collider _);
 
 	private UpdateDel updateDel;
 	private FixedUpdateDel fixedUpdateDel;
+	private CollisionEnter collisionEnterDel;
+	private CollisionExit collisionExitDel;
+	private TriggerEnter triggerEnterDel;
+	private TriggerExit triggerExitDel;
 
 	void Start() {
-		modules = new ModuleBase[] { new PlaerMovment(), new PlaerCamera(), new WaponToy() };
+		modules = new ModuleBase[] { new PlayerMovment(), new PlaerCamera(), new WaponToy() };
 
 		foreach (ModuleBase module in modules) {
 			module.EnableModule(this);
 			updateDel += module.OnUpdate;
 			fixedUpdateDel += module.OnFixedUpdate;
+			collisionEnterDel += module.OnCollisionEnter;
+			collisionExitDel += module.OnCollisionExit;
+			triggerEnterDel += module.OnTriggerEnter;
+			triggerExitDel += module.OnTriggerExit;
 		}	
 	}
 
@@ -31,5 +43,21 @@ public class Player : MonoBehaviour {
 		foreach (ModuleBase module in modules) {
 			module.DisableModule();
 		}
+	}
+
+	private void OnCollisionEnter(Collision collision) {
+		collisionEnterDel(collision);
+	}
+
+	private void OnCollisionExit(Collision collision) {
+		collisionExitDel(collision);
+	}
+
+	private void OnTriggerEnter(Collider other) {
+		triggerEnterDel(other);
+	}
+
+	private void OnTriggerExit(Collider other) {
+		triggerExitDel(other);
 	}
 }
