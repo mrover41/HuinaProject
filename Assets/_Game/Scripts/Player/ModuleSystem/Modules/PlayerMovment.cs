@@ -9,8 +9,10 @@ public class PlayerMovment : ModuleBase {
     private float defaultDamping = 5;
     private float damping = 0.5f;
     private float jumpSpeed = 6;
+    private float slashSpeed = 10f;
+    private LayerMask groundLayer = 1 << 3;
 
-    public bool isGrounded = true;
+    public bool grounded = true;
 
     public override void OnEnable(Player pl) {
         _rb = pl.gameObject.GetComponent<Rigidbody>();
@@ -20,26 +22,27 @@ public class PlayerMovment : ModuleBase {
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 direction = (player.gameObject.transform.right * input.x + player.gameObject.transform.forward * input.z).normalized * force * Time.fixedDeltaTime;
 
-        if (input.magnitude > deadZone && isGrounded) {
+        if (input.magnitude > deadZone && grounded) {
             _rb.linearDamping = damping;
             _rb.linearVelocity = Vector3.ClampMagnitude(new Vector3(_rb.linearVelocity.x + direction.x, 0, _rb.linearVelocity.z + direction.z), maxSpeed) + new Vector3(0, _rb.linearVelocity.y, 0);
-        } else if (isGrounded) {
+        } else if (grounded) {
             _rb.linearDamping = defaultDamping;
         } else {
             _rb.linearDamping = 0;
         }
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded) { 
+        if (Input.GetKeyDown(KeyCode.Space) && grounded) { 
             _rb.linearVelocity += new Vector3(0, jumpSpeed, 0);
-            isGrounded = false;
+            grounded = false;
         }
+
+    }
+
+    private bool isGrounded() {
+        return Physics.Raycast(player.gameObject.transform.position, Vector3.down, 1.5f, groundLayer);
     }
 
     public override void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.CompareTag("Ground")) isGrounded = true;
-    }
-
-    public override void OnCollisionExit(Collision collision) {
-        if (collision.gameObject.CompareTag("Ground")) isGrounded = false;
+        grounded = isGrounded();
     }
 }
