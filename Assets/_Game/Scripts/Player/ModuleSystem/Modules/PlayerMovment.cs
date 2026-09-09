@@ -1,16 +1,17 @@
 using UnityEngine;
 
+[System.Serializable]
 public class PlayerMovment : ModuleBase {
     private Rigidbody _rb;
 
-    private float maxSpeed = 10f;
-    private float force = 15f;
-    private float deadZone = 0.1f; //only for joysticks
-    private float defaultDamping = 5;
-    private float damping = 0.5f;
-    private float jumpSpeed = 6;
-    private float slashSpeed = 10f;
-    private LayerMask groundLayer = 1 << 3;
+    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float force = 15f;
+    [SerializeField] private float deadZone = 0.1f; //only for joysticks
+    [SerializeField] private float defaultDamping = 5;
+    [SerializeField] private float damping = 0.5f;
+    [SerializeField] private float jumpSpeed = 6;
+    [SerializeField] private float slashSpeed = 10f;
+    [SerializeField] private LayerMask groundLayer = 1 << 3;
 
     public bool grounded = true;
 

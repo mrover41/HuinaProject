@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-	[SerializeField] public ModuleBase[] modules;
+	[SerializeReference] public ModuleBase[] modules;
 	
 	private delegate void UpdateDel();
 	private delegate void FixedUpdateDel();

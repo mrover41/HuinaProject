@@ -3472,7 +3472,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 503b5eb1ac6f3b667ace610bc2dff4d6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5097,6 +5097,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024096507520cef2d8f41ea0b45c9221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  modules: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!136 &2079585038
 CapsuleCollider:
   m_ObjectHideFlags: 0
