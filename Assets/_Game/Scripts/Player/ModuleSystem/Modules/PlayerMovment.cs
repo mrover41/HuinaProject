@@ -20,6 +20,8 @@ public class PlayerMovment : ModuleBase {
     }
 
     public override void OnFixedUpdate() {
+        grounded = isGrounded();
+
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 direction = (player.gameObject.transform.right * input.x + player.gameObject.transform.forward * input.z).normalized * force * Time.fixedDeltaTime;
 
@@ -43,7 +45,7 @@ public class PlayerMovment : ModuleBase {
         return Physics.Raycast(player.gameObject.transform.position, Vector3.down, 1.5f, groundLayer);
     }
 
-    public override void OnCollisionEnter(Collision collision) {
+    /*public override void OnCollisionEnter(Collision collision) {
         grounded = isGrounded();
-    }
+    }*/
 }

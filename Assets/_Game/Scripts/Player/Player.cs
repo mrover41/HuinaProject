@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 	private TriggerExit triggerExitDel;
 
 	void Start() {
-		modules = new ModuleBase[] { new PlayerMovment(), new PlaerCamera(), new WaponToy() };
+		modules = new ModuleBase[] { new PlayerMovment(), new PlaerCamera(), new Hook() };
 
 		foreach (ModuleBase module in modules) {
 			module.EnableModule(this);
