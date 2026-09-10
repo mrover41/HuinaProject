@@ -53,6 +53,7 @@ public class PlayerMovment : ModuleBase {
         direction = (player.gameObject.transform.right * input.x + player.gameObject.transform.forward * input.z).normalized * force * Time.deltaTime;
 
         if (slashT + slashTime >= Time.time) {
+            _rb.linearVelocity = Vector3.zero;
             _rb.MovePosition(player.gameObject.transform.position + (slashDirection * slashSpeed) * Time.deltaTime);
             return;
         }
