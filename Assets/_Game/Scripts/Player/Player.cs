@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System;
+using System.Linq;
 
 public class Player : MonoBehaviour {
 	private enum mode {
@@ -25,6 +26,14 @@ public class Player : MonoBehaviour {
 	private TriggerEnter triggerEnterDel;
 	private TriggerExit triggerExitDel;
 
+	public ModuleBase GetModule(string name) {
+		return modules.FirstOrDefault(x => x.Name == name);
+	}
+
+	public T GetModule<T>() where T : ModuleBase {
+		return modules.OfType<T>().FirstOrDefault();
+	}
+
 	void Awake() {
 		switch(_mode) {
 			case mode.Player:
@@ -32,7 +41,8 @@ public class Player : MonoBehaviour {
 					new PlayerMovment(),
 					new PlaerCamera(),
 					new Hook(),
-					new PlayerHealth(), 
+					new PlayerHealth(),
+					new KillPlayer(),
 				};
 			break;
 			case mode.Enemy:

@@ -10,6 +10,10 @@ public class ButtonEvents : MonoBehaviour {
     [SerializeField] private CanvasGroup _creditsGroup;
     [SerializeField] private CanvasGroup _menuGroup;
 
+    private void Start() {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void OnPlayButton() {
         SceneManager.LoadScene(_mainSchene.name, LoadSceneMode.Single);
     }
