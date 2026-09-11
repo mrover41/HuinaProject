@@ -1,6 +1,14 @@
 using UnityEngine;
 
+
 public class Player : MonoBehaviour {
+	private enum mode {
+		Player,
+		Enemy,
+	}
+
+	[SerializeField] private mode _mode;
+
 	[SerializeReference] public ModuleBase[] modules;
 	
 	private delegate void UpdateDel();
@@ -18,7 +26,21 @@ public class Player : MonoBehaviour {
 	private TriggerExit triggerExitDel;
 
 	void Start() {
-		modules = new ModuleBase[] { new PlayerMovment(), new PlaerCamera(), new Hook() };
+		switch(_mode) {
+			case mode.Player:
+				modules = new ModuleBase[] { 
+					new PlayerMovment(),
+					new PlaerCamera(),
+					new Hook(),
+					new PlayerHealth(), 
+				};
+			break;
+			case mode.Enemy:
+				modules = new ModuleBase[] {
+					new AiMovment(),
+				};
+			break;
+		}
 
 		foreach (ModuleBase module in modules) {
 			module.EnableModule(this);

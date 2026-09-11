@@ -15,7 +15,7 @@ public class PlayerMovment : ModuleBase {
     [SerializeField] private float deadZone = 0.1f; //only for joysticks
     [SerializeField] private float defaultDamping = 5;
     [SerializeField] private float damping = 0.5f;
-    [SerializeField] private float jumpSpeed = 10;
+    [SerializeField] private float jumpSpeed = 6;
     [SerializeField] private float slashSpeed = 10;
     [SerializeField] private float slashTime = 0.3f;
     [SerializeField] private float slashCooldown = 5;

@@ -13,7 +13,6 @@ public class Hook : ModuleBase {
     [SerializeField] private float maxLenght = 200;
     [SerializeField] private float speed = 2500;
     [SerializeField] private LayerMask hookLayer = 1 << 6;
-    [SerializeField] private float maxDistance = 50;
 
     public override void OnEnable(Player pl) {
         _rb = pl.gameObject.GetComponent<Rigidbody>();
