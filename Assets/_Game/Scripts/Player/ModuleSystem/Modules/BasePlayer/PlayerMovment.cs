@@ -16,6 +16,7 @@ public class PlayerMovment : ModuleBase {
     [SerializeField] private float defaultDamping = 5;
     [SerializeField] private float damping = 0.5f;
     [SerializeField] private float jumpSpeed = 6;
+    [SerializeField] private float jumpForce = 2;
     [SerializeField] private float slashSpeed = 10;
     [SerializeField] private float slashTime = 0.3f;
     [SerializeField] private float slashCooldown = 5;
@@ -40,7 +41,7 @@ public class PlayerMovment : ModuleBase {
 
     private void UpdateInput() {
         if (Input.GetKeyDown(KeyCode.Space) && grounded) { 
-            _rb.linearVelocity += new Vector3(0, jumpSpeed, 0);
+            _rb.linearVelocity += new Vector3(0, jumpSpeed, 0) + direction.normalized * jumpForce;
         } if (Input.GetKeyDown(KeyCode.LeftShift) && slashT + slashTime <= Time.time) {
             slashT = Time.time;
             slashDirection = direction.normalized * slashSpeed;
