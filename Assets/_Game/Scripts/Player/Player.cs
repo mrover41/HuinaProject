@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
 	private TriggerEnter triggerEnterDel;
 	private TriggerExit triggerExitDel;
 
-	void Start() {
+	void Awake() {
 		switch(_mode) {
 			case mode.Player:
 				modules = new ModuleBase[] { 
@@ -42,6 +42,9 @@ public class Player : MonoBehaviour {
 			break;
 		}
 
+	}
+
+	void Start() {
 		foreach (ModuleBase module in modules) {
 			module.EnableModule(this);
 			updateDel += module.OnUpdate;
