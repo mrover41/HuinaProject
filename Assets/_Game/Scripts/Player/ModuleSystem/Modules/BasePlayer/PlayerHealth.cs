@@ -3,7 +3,17 @@ using System;
 
 public class PlayerHealth : ModuleBase {
     [SerializeField] private float maxHealth = 100;
-    [SerializeField] public float cureentHealth = 100;
+    [SerializeField] private float currentHealth = 100;
+
+    public float CurrentHealth {
+        get => currentHealth;
+        private set => currentHealth = value;
+    }
+
+    public float MaxHealth {
+        get => maxHealth;
+        private set => maxHealth = value;
+    }
 
     private EventHandler? _kill;
     public event EventHandler Kill {
@@ -11,16 +21,16 @@ public class PlayerHealth : ModuleBase {
         remove => _kill -= value;
     }
 
-    private void Heal(float h) {
-        cureentHealth += Mathf.Clamp(h, 0, maxHealth);
+    public void Heal(float h) {
+        currentHealth += Mathf.Clamp(h, 0, maxHealth);
     }
 
-    private void SetHealth(float h) {
-        cureentHealth = Mathf.Clamp(h, 0, maxHealth);
+    public void SetHealth(float h) {
+        currentHealth = Mathf.Clamp(h, 0, maxHealth);
     }
 
-    private void Hurt(float h) {
-        cureentHealth -= Mathf.Clamp(h, 0, maxHealth);
-        if (cureentHealth <= 0) _kill?.Invoke(this, EventArgs.Empty);
+    public void Hurt(float h) {
+        currentHealth -= Mathf.Clamp(h, 0, maxHealth);
+        if (currentHealth <= 0) _kill?.Invoke(this, EventArgs.Empty);
     }
 }
