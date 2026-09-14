@@ -20,7 +20,7 @@ public class PlayerMovment : ModuleBase {
     [SerializeField] private float slashSpeed = 10;
     [SerializeField] private float slashTime = 0.3f;
     [SerializeField] private float slashCooldown = 5;
-    [SerializeField] private LayerMask groundLayer = 1 << 3;
+    [SerializeField] private string groundTag = "Ground";
 
     public bool grounded {get; private set;} = true;
     public bool isEnabled = true;
@@ -31,8 +31,6 @@ public class PlayerMovment : ModuleBase {
 
     public override void OnUpdate() {
         if (!isEnabled) return;
-
-        grounded = isGrounded();
 
         UpdateMoving();
         UpdateInput();        
@@ -69,11 +67,11 @@ public class PlayerMovment : ModuleBase {
         }
     }
 
-    private bool isGrounded() {
-        return Physics.Raycast(player.gameObject.transform.position, Vector3.down, 1.5f, groundLayer);
+    public override void OnCollisionEnter(Collision collision) {
+        if (collision.collider.gameObject.CompareTag(groundTag)) grounded = true;
     }
 
-    /*public override void OnCollisionEnter(Collision collision) {
-        grounded = isGrounded();
-    }*/
+    public override void OnCollisionExit(Collision collision) {
+        if (collision.collider.gameObject.CompareTag(groundTag)) grounded = false;
+    }
 }
