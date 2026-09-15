@@ -6,9 +6,7 @@ public class PlayerMovment : ModuleBase {
 
     private float slashT = 0;
     private Vector3 slashDirection;
-
-    private Vector3 input;
-    private Vector3 direction;
+    private int groundCounter = 0;
 
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float force = 15f;
@@ -22,8 +20,16 @@ public class PlayerMovment : ModuleBase {
     [SerializeField] private float slashCooldown = 5;
     [SerializeField] private string groundTag = "Ground";
 
-    public bool grounded {get; private set;} = true;
+    public Vector3 direction {get; private set;}
+    public Vector3 input {get; private set;}
+    public bool Grounded => groundCounter > 0;
     public bool isEnabled = true;
+    public bool isWalking {get; private set;} = false;
+
+    public float DeadZone {
+        get => deadZone;
+        private set => deadZone = value;
+    }
 
     public override void OnEnable(Player pl) {
         _rb = pl.gameObject.GetComponent<Rigidbody>();
@@ -38,7 +44,7 @@ public class PlayerMovment : ModuleBase {
 
 
     private void UpdateInput() {
-        if (Input.GetKeyDown(KeyCode.Space) && grounded) { 
+        if (Input.GetKeyDown(KeyCode.Space) && Grounded) { 
             _rb.linearVelocity += new Vector3(0, jumpSpeed, 0) + direction.normalized * jumpForce;
         } if (Input.GetKeyDown(KeyCode.LeftShift) && slashT + slashTime <= Time.time) {
             slashT = Time.time;
@@ -57,21 +63,24 @@ public class PlayerMovment : ModuleBase {
             return;
         }
 
-        if (input.magnitude > deadZone && grounded) {
+        if (input.magnitude > deadZone && Grounded) {
             _rb.linearDamping = damping;
             _rb.linearVelocity = Vector3.ClampMagnitude(new Vector3(_rb.linearVelocity.x + direction.x, 0, _rb.linearVelocity.z + direction.z), maxSpeed) + new Vector3(0, _rb.linearVelocity.y, 0);
-        } else if (grounded) {
+            isWalking = true;
+        } else if (Grounded) {
             _rb.linearDamping = defaultDamping;
+            isWalking = false;
         } else {
             _rb.linearDamping = 0;
+            isWalking = false;
         }
     }
 
     public override void OnCollisionEnter(Collision collision) {
-        if (collision.collider.gameObject.CompareTag(groundTag)) grounded = true;
+        if (collision.collider.gameObject.CompareTag(groundTag)) groundCounter ++;
     }
 
     public override void OnCollisionExit(Collision collision) {
-        if (collision.collider.gameObject.CompareTag(groundTag)) grounded = false;
+        if (collision.collider.gameObject.CompareTag(groundTag)) groundCounter --;
     }
 }

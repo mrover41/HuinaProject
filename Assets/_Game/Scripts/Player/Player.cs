@@ -43,6 +43,7 @@ public class Player : MonoBehaviour {
 					new Hook(),
 					new PlayerHealth(),
 					new KillPlayer(),
+					new PlayerAnimation(),
 				};
 			break;
 			case mode.Enemy:
