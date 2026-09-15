@@ -1,10 +1,17 @@
 using UnityEngine;
 
 public class PlayerAnimation : ModuleBase {
+    private enum AnimationStatus {
+        None,
+        Idle,
+        Walk,
+        Fall,
+    }
+
+    private AnimationStatus animStat;
+
     private Animator _anim = null;
     private PlayerMovment _playerMov = null;
-
-    private bool isIdle = true;
 
     public override void OnEnable(Player pl) {
         _anim = pl.GetComponent<Animator>();
@@ -12,13 +19,21 @@ public class PlayerAnimation : ModuleBase {
     }
 
     public override void OnUpdate() {
-        if (isIdle && _playerMov.isWalking) {
-            _anim.SetTrigger("ToWalking");
-            isIdle = false;
-        } else if (!isIdle && !_playerMov.isWalking) {
-            _anim.SetTrigger("ToIdle");
-            isIdle = true;
+        if (!_playerMov.Grounded && animStat != AnimationStatus.Fall) {
+            _anim.SetTrigger("ToFall");
+            animStat = AnimationStatus.Fall;
+        } else if (_playerMov.Grounded && animStat == AnimationStatus.Fall) {
+            //
         }
+
+        if (animStat != AnimationStatus.Walk && _playerMov.isWalking && _playerMov.Grounded) {
+            _anim.SetTrigger("ToWalking");
+            animStat = AnimationStatus.Walk;
+        } else if (animStat != AnimationStatus.Idle && !_playerMov.isWalking && _playerMov.Grounded) {
+            _anim.SetTrigger("ToIdle");
+            animStat = AnimationStatus.Idle;
+        }
+
     }
 
     public override void OnDisable() {
